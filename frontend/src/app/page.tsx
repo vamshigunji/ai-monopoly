@@ -64,9 +64,8 @@ export default function Home() {
           <div className="flex items-center gap-3 text-xs font-medium">
             <div className="flex items-center gap-1.5">
               <div
-                className={`w-2 h-2 rounded-full ${
-                  connected ? "bg-green-500 animate-pulse" : "bg-red-500"
-                }`}
+                className={`w-2 h-2 rounded-full ${connected ? "bg-green-500 animate-pulse" : "bg-red-500"
+                  }`}
               />
               <span className="text-black font-bold">{connected ? "Connected" : "Disconnected"}</span>
             </div>
@@ -140,7 +139,9 @@ export default function Home() {
         <p>
           Built with Next.js + FastAPI + OpenAI GPT-4o + Google Gemini |{" "}
           <a
-            href="https://github.com/anthropics/claude-code"
+            href="https://github.com/vamshigunji/ai-monopoly/tree/main"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-blue-300 hover:text-blue-200 underline"
           >
             GitHub

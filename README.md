@@ -1,221 +1,124 @@
-# 🎲 Monopoly AI Agents
+<p align="center">
+  <img src="docs/assets/AI-Monopoly.jpeg" alt="AI Monopoly Banner" width="800px">
+</p>
 
-Watch 4 AI agents with distinct personalities play Monopoly against each other! Each agent uses different LLM models and exhibits unique strategies, negotiation styles, and decision-making patterns.
+# 🎲 AI Agent Monopoly Arena: A Living Laboratory of Negotiation
 
-## 🎮 Features
+Welcome to the **AI Agent Monopoly Arena**, a high-fidelity simulator where distinct Large Language Models (LLMs) compete, negotiate, and bankrupt one another in a quest for real estate dominance. 
 
-- **4 Unique AI Personalities:**
-  - 🦈 **The Shark** (GPT-3.5-turbo) - Aggressive negotiator who buys everything
-  - 🎓 **The Professor** (GPT-3.5-turbo) - Analytical strategist who calculates probabilities
-  - 🎭 **The Hustler** (GPT-3.5-turbo) - Charismatic bluffer who makes lopsided deals
-  - 🐢 **The Turtle** (GPT-3.5-turbo) - Conservative builder who hoards cash
+This project isn't just a game; it's an **observation deck** for multi-agent social intelligence. Unlike traditional rule-based AI, these agents think in natural language, harbor private strategies, and engage in complex multi-lateral trades that mirror human behavior.
 
-- **Real-time Gameplay:**
-  - Live WebSocket updates
-  - Animated dice rolls
-  - Moving player tokens
-  - Rich event logs
+---
 
-- **Dual Context System:**
-  - **Public Chat** - Agent negotiations visible to all
-  - **Private Thoughts** - Internal strategy reasoning
+## 📺 Watch the Arena in Action
 
-- **Full Monopoly Rules:**
-  - Complete board with all 40 spaces
-  - Properties, railroads, utilities
-  - Chance & Community Chest cards
-  - Auctions, trading, mortgaging
-  - Houses, hotels, and bankruptcies
+<p align="center">
+  <video src="docs/assets/AI-Monopoly.mov" width="800px" controls>
+    Your browser does not support the video tag.
+  </video>
+</p>
 
-## 🚀 Quick Start
+---
 
-### Prerequisites
+## 🤖 Meet the Contenders
 
-- Python 3.11+
-- Node.js 18+
-- OpenAI API key ([get one here](https://platform.openai.com/api-keys))
+The arena features four agent archetypes, each powered by a specific LLM and a unique "personality profile." Their playstyles emerge from deep prompt engineering rather than rigid scripts.
 
-### Setup
+| Agent | Model | Archetype | Philosophy | Playstyle |
+| :--- | :--- | :--- | :--- | :--- |
+| **🦈 The Shark** | GPT-4o | Aggressor | "Chaos is a ladder." | Prioritizes monopolies at any cost. Aggressive auction bidder. |
+| **🎓 The Professor** | GPT-4o | Strategist | "Efficiency is logic." | Mathematical. Focuses on ROI and probability-driven building. |
+| **🎭 The Hustler** | GPT-3.5 | Negotiator | "Everything is a trade." | High-volume trader. Uses charisma to push lopsided deals. |
+| **🐢 The Turtle** | GPT-3.5 | Conservative | "Defense wins games." | Hoards cash. Only builds when liquidity is guaranteed. |
 
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd monopoly-agents
-```
+### 🧠 Introspection: Public vs. Private
+Every decision made by these agents is backed by a **Dual-Context System**:
+*   **Public Chat:** What the agents say to each other to negotiate.
+*   **Private Thoughts:** A "hidden" reasoning chain exposed for analysis, where agents reveal their true motives (e.g., *"I'm pretending to be broke to get a better trade deal"*).
 
-2. **Backend Setup:**
-```bash
-cd backend
+---
 
-# Create virtual environment (optional)
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+## 🏗️ Inside the Architecture
 
-# Install dependencies
-pip install -e .
+The simulator is built on a **"Firehose" Architecture** designed for zero-latency observability.
 
-# Create .env file with your API key
-cat > .env << EOF
-OPENAI_API_KEY=your-openai-api-key-here
-EOF
+1.  **Determinstic Engine:** A robust Python core that handles the 100% rule-fidelity of Monopoly (auctions, mortgage interest, building restrictions).
+2.  **Agent Orchestrator:** Manages the LLM lifecycle, ensuring agents receive a full "state snapshot" of the board before setiap decision.
+3.  **WebSocket Firehose:** A FastAPI-powered stream that pushes atomic event updates and full state snapshots to the React UI in real-time.
 
-# Run backend
-python -m uvicorn src.monopoly.api.main:app --host 0.0.0.0 --port 8000 --reload
-```
+### 📡 How Agents See the World
+Agents don't "see" a board; they consume a **State Packet**. This JSON payload includes:
+*   **Physical State:** Property ownership, bank balances, and positions.
+*   **Contextual State:** Recent trade history and negotiation logs.
+*   **Rules Perimeter:** Valid actions available at the current micro-state.
 
-3. **Frontend Setup (in a new terminal):**
-```bash
-cd frontend
+---
 
-# Install dependencies
-npm install
+## ⏳ Anatomy of a Turn
 
-# Run frontend
-npm run dev
-```
+A single turn in the arena is a "blow-by-blow" sequence of logic and social interaction.
 
-4. **Open the game:**
-```
-http://localhost:3000
-```
+1.  **Action Selection:** The agent analyzes the state packet and decides to roll, buy, or trade.
+2.  **The Negotiation Loop:** If a property is owned by another agent, the active agent may initiate a complex trade request.
+3.  **Conflict Resolution:** Disputes (like multi-way trades or auctions) are resolved through a separate "Auction House" state machine.
+4.  **State Synthesis:** After the turn ends, the entire board state is recalculated and broadcast to the UI.
 
-## 🎯 How to Play
+> [!TIP]
+> Check out [EXAMPLE_GAMEPLAY.md](docs/EXAMPLE_GAMEPLAY.md) for a raw log of a trade war between The Shark and The Professor.
 
-1. Click **"Start New Game"**
-2. Watch the AI agents play automatically
-3. Use the controls:
-   - ⏸️ **Pause/Resume** - Control game flow
-   - 🎚️ **Speed** - Adjust game speed (0.5x to 5x)
-   - 🔄 **New Game** - Start fresh
+---
 
-4. Explore the UI:
-   - **Game Board** - See token positions and property ownership
-   - **Agent Cards** - View each player's cash and properties
-   - **Public Chat** - Read agent negotiations
-   - **Private Thoughts** - Select an agent to see their strategy
-   - **Asset Panel** - View detailed property information per player
-   - **Game Log** - Filter and review all game events
+## 🧪 Engineering Excellence
 
-## 🧪 Testing
+- **899+ Unit Tests:** Covering every edge case from triple-doubles to bankruptcy-by-utility.
+- **Turbo Mode:** Accelerated simulation for generating massive amounts of agent interaction data.
+- **Log-Driven UI:** The frontend is purely reactive; it doesn't calculate game state, it simply renders the "truth" received from the backend.
 
-### Run Backend Tests (899 tests)
-```bash
-cd backend
-pytest tests/ -v
-```
+---
 
-### Run End-to-End Test
-```bash
-cd backend
-python test_game.py
-```
+## 🚀 Getting Started
 
-This will verify:
-- ✅ Backend is running
-- ✅ Game creation works
-- ✅ AI agents make decisions
-- ✅ Tokens move on the board
-- ✅ Financial transactions occur
-- ✅ Events are generated
+### 📋 Prerequisites
+- **Python 3.11+**
+- **Node.js 18+**
+- API Keys for **OpenAI** and/or **Google Gemini**
 
-## 📊 Architecture
+### ⚙️ Setup
 
-```
-monopoly-agents/
-├── backend/                 # Python FastAPI backend
-│   ├── src/monopoly/
-│   │   ├── engine/         # Pure game logic (no I/O)
-│   │   ├── agents/         # AI agent implementations
-│   │   ├── orchestrator/   # Game loop coordination
-│   │   └── api/            # REST + WebSocket endpoints
-│   └── tests/              # 899 unit & integration tests
-│
-└── frontend/               # Next.js 16 + React 18
-    └── src/
-        ├── components/     # Game UI components
-        ├── hooks/          # WebSocket & state hooks
-        └── stores/         # Zustand state management
-```
+1. **Clone & Explore:**
+   ```bash
+   git clone <repository-url>
+   cd monopoly-agents
+   ```
 
-## 🔧 Configuration
+2. **Backend (FastAPI):**
+   ```bash
+   cd backend
+   source .venv/bin/activate # Recommended
+   pip install -e .
+   cp .env.example .env      # Add your API keys here
+   uvicorn monopoly.api.main:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-### Change AI Models
+3. **Frontend (Next.js):**
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
 
-Edit `backend/src/monopoly/agents/personalities.py`:
+Open [http://localhost:3000](http://localhost:3000) to enter the arena.
 
-```python
-SHARK = PersonalityConfig(
-    model="gpt-4o",  # Change to gpt-4o, gpt-3.5-turbo, etc.
-    temperature=0.7,
-    ...
-)
-```
+---
 
-### Adjust Personalities
+## 📚 Deep Dives
+*   [Architecture Blueprint](docs/architecture.md)
+*   [Game Rules Reference](docs/game-rules-reference.md)
+*   [Data Packet Specification](docs/data_packet.md)
 
-Modify the prompt templates in `personalities.py` to change:
-- Decision-making style
-- Risk tolerance
-- Negotiation tactics
-- Speech patterns
+---
 
-## 📡 API Endpoints
+## 📜 License
+MIT © Venkata Vamshi Gunji
 
-### REST API
-- `POST /api/game/start` - Start new game
-- `GET /api/game/{id}/state` - Get current state
-- `GET /api/game/{id}/history` - Get event history
-- `POST /api/game/{id}/pause` - Pause game
-- `POST /api/game/{id}/resume` - Resume game
-- `POST /api/game/{id}/speed` - Set game speed
-
-### WebSocket
-- `WS /ws/game/{id}` - Real-time event stream
-
-## 🎓 Sprint Status
-
-- ✅ **Sprint 1**: Game Engine (899 tests passing)
-- ✅ **Sprint 2**: AI Agents (4 personalities implemented)
-- ✅ **Sprint 3**: Orchestrator + API (WebSocket streaming)
-- ✅ **Sprint 4**: Frontend (All components built)
-- ✅ **Sprint 5**: Integration & Polish (Complete)
-
-## 💰 Cost Estimates
-
-Using GPT-3.5-turbo for all agents:
-- **~$0.02-0.05 per full game**
-- Average game: 50-200 turns
-- Each turn: 2-4 LLM calls
-
-Using GPT-4o:
-- **~$0.20-0.50 per game**
-
-## 🐛 Troubleshooting
-
-### Backend won't start
-- Check Python version: `python --version` (needs 3.11+)
-- Verify API key is set in `.env`
-- Check port 8000 isn't in use: `lsof -ti:8000`
-
-### Frontend shows "Disconnected"
-- Ensure backend is running on port 8000
-- Hard refresh browser: `Cmd+Shift+R` (Mac) or `Ctrl+Shift+R` (Windows)
-- Check browser console for WebSocket errors
-
-### Agents not making decisions
-- Verify `OPENAI_API_KEY` is valid
-- Check backend logs for API errors
-- Run `test_game.py` to verify end-to-end functionality
-
-## 📝 License
-
-MIT
-
-## 🙏 Acknowledgments
-
-Built with:
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Next.js](https://nextjs.org/)
-- [OpenAI API](https://platform.openai.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Zustand](https://github.com/pmndrs/zustand)
+ Built with 🦀 **FastAPI**, 🌀 **Next.js**, and 🧠 **Human-Grade AI**.
